@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View.OnClickListener"/>
+        <variable name="onClick" type="android.view.View.OnClickListener" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/logo"/>
+
+            <EditText
+                android:id="@+id/insert_id"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:textSize="15dp"
+                android:textColor="@android:color/background_dark"
+                android:fontFamily="@font/gmarketsanslight"
+                android:includeFontPadding="false"
+                android:hint="아이디"
+                android:paddingLeft="10dp"
+                android:textColorHint="@color/blue_130"
+                android:background="@drawable/line_blue"
+                android:gravity="center|start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo"
+                android:layout_marginTop="20dp"
+                android:maxLines="1"
+                android:imeOptions="actionDone"/>
+
+            <EditText
+                android:id="@+id/insert_password"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:textSize="15dp"
+                android:textColor="@android:color/background_dark"
+                android:fontFamily="@font/gmarketsanslight"
+                android:includeFontPadding="false"
+                android:hint="비밀번호"
+                android:textColorHint="@color/blue_130"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:background="@drawable/line_blue"
+                android:gravity="center|start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/insert_id"
+                android:maxLines="1"
+                android:imeOptions="actionDone"/>
+
+            <CheckBox
+                android:id="@+id/autoLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자동로그인"
+                android:textSize="15dp"
+                android:textColor="@color/blue_130"
+                android:fontFamily="@font/gmarketsansmedium"
+                android:includeFontPadding="false"
+                android:buttonTint="@color/blue_130"
+                app:layout_constraintTop_toBottomOf="@+id/insert_password"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="45dp"/>
+
+            <TextView
+                android:id="@+id/btn_login"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/autoLogin"
+                app:layout_constraintEnd_toStartOf="@id/btn_register"
+                android:layout_marginTop="10dp"
+                android:text="로그인"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_marginStart="50dp"
+                android:background="@drawable/round_blue"
+                android:fontFamily="@font/gmarketsansmedium"
+                android:includeFontPadding="false"
+                android:onClick="onClick"/>
+
+            <TextView
+                android:id="@+id/btn_register"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                app:layout_constraintStart_toStartOf="@id/btn_login"
+                app:layout_constraintTop_toBottomOf="@+id/autoLogin"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:text="회원가입"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:background="@drawable/round_blue"
+                android:fontFamily="@font/gmarketsansmedium"
+                android:includeFontPadding="false"
+                android:onClick="onClick"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

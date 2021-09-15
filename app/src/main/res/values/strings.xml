@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">StarBooks</string>
+    <string-array name="year_array">
+        <item>남</item>
+        <item>여</item>
+    </string-array>
+    <string-array name="spinner_array">
+        <item>최신순</item>
+        <item>좋아요순</item>
+        <item>리뷰순</item>
+    </string-array>
+</resources>
