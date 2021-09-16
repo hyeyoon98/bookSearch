@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -63,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_register:
                 Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
-                finish();
                 break;
 
         }
@@ -86,8 +86,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse result = response.body();
 
+                    System.out.println("로그인리스폰스 >>>>>>>>>>"+result);
                     String code = result.getCode();
                     String msg = result.getMessage();
+                    System.out.println("메세지 >>>>>>>>>>"+msg);
+                    String token = result.getToken();
+
+
+                    switch (code) {
+                        case "E0001":
+                            showToast("클라이언트 에러");
+                            break;
+                        case "E0002":
+                            showToast("잘못된 접근방식입니다.");
+                            break;
+                        case "E0003":
+                            showToast("서버 에러");
+                        case "E0006" :
+                            showToast(msg);
+
+                        case "E0007" :
+                            showToast(msg);
+
+                        case "E0008" :
+                            setPreference("token", token);
+                            showToast("반갑습니다");
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                            break;
+                    }
 
                     
                 }
@@ -152,6 +180,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .show();
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 

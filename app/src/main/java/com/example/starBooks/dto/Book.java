@@ -20,13 +20,24 @@ public class Book {
     public String publisher;
 
     @SerializedName("price")
-    public String price;
+    public int price;
+
+    @SerializedName("createdAt")
+    public String createAt;
 
     @SerializedName("description")
     public String description;
 
-    @SerializedName("createdAt")
-    public String createAt;
+    @SerializedName("isbn")
+    public String isbn;
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
     public int getId() {
         return id;
@@ -68,11 +79,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -92,18 +103,5 @@ public class Book {
         this.createAt = createAt;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", price='" + price + '\'' +
-                ", description='" + description + '\'' +
-                ", createAt='" + createAt + '\'' +
-                '}';
-    }
 }
 

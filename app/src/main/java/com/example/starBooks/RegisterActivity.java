@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +20,7 @@ import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
 import com.example.starBooks.dto.RegisterRequest;
 import com.example.starBooks.databinding.ActivityRegisterBinding;
+import com.example.starBooks.dto.RegisterResponse;
 
 import java.util.Calendar;
 
@@ -65,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 showAlert("비밀번호는 8자리~15자리로 입력바랍니다.");
             } else if (hasSpecialCharacter(userPw)==false) {
                 showAlert("비밀번호에 특수문자를 포함해주시길 바랍니다.");
-            } else if (userPw != userPwConfirm) {
+            } else if (!userPw.equals(userPwConfirm)) {
                 showAlert("비밀번호가 일치하지 않습니다.");
             } else if (userPhoneNum.trim().length() != 11) {
                 showAlert("전화번호가 맞는지 다시 확인바랍니다.");
@@ -73,11 +75,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 showAlert("이메일 형식이 맞지 않습니다.");
             } else {
                 RequestRegister();
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.putExtra(userId, userId);
-                intent.putExtra(userPw, userPw);
-                startActivity(intent);
-                finish();
             }
         } else if (v.getId() == R.id.insert_birth) {
             final Calendar calendar = Calendar.getInstance();
@@ -85,10 +82,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
 
+
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    binding.insertBirth.setText(year+(month+1)+dayOfMonth);
+                    binding.insertBirth.setText(String.format("%d%02d%d",year,month+1,dayOfMonth));
                 }
             }, year, month, day);
             datePickerDialog.show();
@@ -109,16 +107,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         retrofitClient = RetrofitClient.getInstance();
         initMyApi = RetrofitClient.getRetrofitInterface();
 
-        initMyApi.getSignUp(registerRequest).enqueue(new Callback<Response>() {
+        initMyApi.getSignUp(registerRequest).enqueue(new Callback<RegisterResponse>() {
             @Override
-            public void onResponse(Call<Response> call, Response<Response> response) {
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    RegisterResponse result = response.body();
+                    String code = result.getCode();
+
+                    if (code.equals("E0008")) {
+                        Toast.makeText(RegisterActivity.this,"회원가입이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            /*        intent.putExtra(userId, userId);
+                    intent.putExtra(userPw, userPw);*/
+                        startActivity(intent);
+                        finish();
+                    }
 
                 }
             }
 
             @Override
-            public void onFailure(Call<Response> call, Throwable t) {
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
             }
         });

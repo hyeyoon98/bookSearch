@@ -4,13 +4,16 @@ import android.app.Application;
 
 import com.kakao.sdk.common.KakaoSdk;
 
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
+
 public class GlobalApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //SDK 초기화
-        KakaoSdk.init(this, "{NATIVE_APP_KEY}");
+        Security.insertProviderAt(Conscrypt.newProvider(),1);
     }
 }

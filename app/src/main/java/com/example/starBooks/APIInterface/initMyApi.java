@@ -4,6 +4,7 @@ import com.example.starBooks.dto.LoginRequest;
 import com.example.starBooks.dto.LoginResponse;
 import com.example.starBooks.dto.Page;
 import com.example.starBooks.dto.RegisterRequest;
+import com.example.starBooks.dto.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,9 +20,8 @@ public interface initMyApi {
                                @Query("size") int size);
 
     @POST("/api/signup")
-    Call<Response> getSignUp(@Body RegisterRequest registerRequest);
+    Call<RegisterResponse> getSignUp(@Body RegisterRequest registerRequest);
 
     @POST("/api/login")
     Call<LoginResponse> getLoginResponse(@Body LoginRequest loginRequest);
-
 }

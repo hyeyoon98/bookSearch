@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
     <data>
-        <import type="androidx.databinding.BindingAdapter"/>
+        <import type="android.view.View"/>
         <import type="com.example.starBooks.dto.Book"/>
 
         <variable
-            name="myList"
-            type="java.util.List" />
+            name="listAdapter"
+            type="com.example.starBooks.ListView.ListViewAdapter" />
     </data>
 
     <LinearLayout
@@ -51,15 +51,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <ListView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:item="@{myList}"/>
+                app:adapter="@{listAdapter}"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>

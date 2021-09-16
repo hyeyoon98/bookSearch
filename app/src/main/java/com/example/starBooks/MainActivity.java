@@ -1,7 +1,9 @@
 package com.example.starBooks;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +13,9 @@ import android.widget.Toast;
 
 import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
+import com.example.starBooks.ListView.ListViewAdapter;
 import com.example.starBooks.dto.Book;
 import com.example.starBooks.dto.Page;
-import com.example.starBooks.RecycleView.RecyclerAdapter;
 import com.example.starBooks.databinding.ActivityMainBinding;
 
 import org.json.JSONArray;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private initMyApi initMyApi;
     private ActivityMainBinding binding;
-    private RecyclerAdapter adapter;
+    private ListViewAdapter adapter;
     private List<Book> bookList;
 
     @Override
@@ -62,25 +64,24 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("성공??>>>"+response);
                 if (response.isSuccessful()&&response.body()!=null) {
                     Page result = response.body();
+                    System.out.println("이거 되나요??>>>"+result);
                     bookList = result.getContent();
-
-                    binding.recyclerView.setAdapter(adapter);
-                    binding.setMyList(bookList);
-
+                    binding.swipeLayout.setRefreshing(false);
+                    parsingJSONData(bookList);
                 }
             }
 
             @Override
             public void onFailure(Call<Page> call, Throwable t) {
-
+                Toast.makeText(MainActivity.this, "불러오기 실패하셨네요 ㅋㅋ", Toast.LENGTH_SHORT);
             }
         });
 
     }
 
-    private void parsingJSONData(Page data) {
-        List<Book> mList = new ArrayList<>();
+    private void parsingJSONData(List data) {
         System.out.println("리스트 가져와 >>>>>>>>>>>" + data);
+        List<Book> bookList = new ArrayList<>();
 
         try {
             JSONArray jArray = new JSONArray(data);
@@ -93,14 +94,17 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject jObject = jArray.getJSONObject(i);
 
                     //마켓 이름 저장
+                    book.setId(jObject.getInt("id"));
                     book.setImgUrl(jObject.getString("imgUrl"));
                     book.setTitle(jObject.getString("title"));
                     book.setAuthor(jObject.getString("author"));
                     book.setPublisher(jObject.getString("publisher"));
-                    book.setPrice(jObject.getString("price"));
-
-                    mList.add(book);
+                    book.setPrice(jObject.getInt("price"));
+                    book.setCreateAt(jObject.getString("createAt"));
+                    book.setDescription(jObject.getString("description"));
+                    bookList.add(book);
                 }
+                binding.setListAdapter(new ListViewAdapter(bookList));
 
             }
 

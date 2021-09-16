@@ -5,7 +5,6 @@
     <data>
         <import type="android.view.View.OnClickListener"/>
         <variable name="onClick" type="android.view.View.OnClickListener" />
-        <variable name="book" type="com.example.starBooks.dto.Book" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,20 +16,19 @@
         android:onClick="onClick">
 
         <TextView
+            android:id="@+id/tv_book_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            android:text="@{book.id}"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/book_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loadImage="@{book.imgUrl}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/layout_linear"
@@ -55,8 +53,7 @@
                 android:fontFamily="@font/gmarketsansmedium"
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:textSize="18dp"
-                android:text="@{book.title}"/>
+                android:textSize="18dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -73,8 +70,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gmarketsansmedium"
                     android:includeFontPadding="false"
-                    android:textSize="15dp"
-                    android:text="@{book.author}"/>
+                    android:textSize="15dp"/>
 
 
                 <TextView
@@ -95,8 +91,7 @@
                     android:fontFamily="@font/gmarketsansmedium"
                     android:includeFontPadding="false"
                     android:textSize="15dp"
-                    android:layout_marginStart="10dp"
-                    android:text="@{book.publisher}"/>
+                    android:layout_marginStart="10dp"/>
 
             </LinearLayout>
 
@@ -124,8 +119,7 @@
                 android:includeFontPadding="false"
                 android:gravity="right"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="3dp"
-                android:text="@{book.price}"/>
+                android:layout_marginBottom="3dp"/>
 
             <!--출시일-->
             <TextView
@@ -137,8 +131,7 @@
                 android:includeFontPadding="false"
                 android:gravity="right"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="3dp"
-                android:text="@{book.createAt}"/>
+                android:layout_marginBottom="3dp"/>
 
             <TextView
                 android:id="@+id/tv_description"
@@ -150,7 +143,6 @@
                 android:gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="3dp"
-                android:text="@{book.description}"
                 android:visibility="gone"/>
         </LinearLayout>
 
