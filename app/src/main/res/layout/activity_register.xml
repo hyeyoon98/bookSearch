@@ -6,6 +6,7 @@
         <import type="android.view.View.OnClickListener"/>
         <variable name="onClick" type="android.view.View.OnClickListener" />
         <variable name="title" type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -17,7 +17,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
-import com.example.starBooks.DTO.RegisterRequest;
+import com.example.starBooks.dto.RegisterRequest;
 import com.example.starBooks.databinding.ActivityRegisterBinding;
 
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.example.starBooks.DTO;
+package com.example.starBooks.dto;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -81,7 +81,7 @@ public class Page {
         return totalPages;
     }
 
-    public List<com.example.starBooks.DTO.pageable> getPageable() {
+    public List<com.example.starBooks.dto.pageable> getPageable() {
         return pageable;
     }
 
@@ -113,7 +113,7 @@ public class Page {
         this.numberOfElements = numberOfElements;
     }
 
-    public void setPageable(ArrayList<com.example.starBooks.DTO.pageable> pageable) {
+    public void setPageable(ArrayList<com.example.starBooks.dto.pageable> pageable) {
         this.pageable = pageable;
     }
 

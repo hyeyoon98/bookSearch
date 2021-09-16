@@ -1,4 +1,4 @@
-package com.example.starBooks.DTO;
+package com.example.starBooks.dto;
 
 import com.google.gson.annotations.SerializedName;
 

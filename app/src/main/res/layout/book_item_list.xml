@@ -5,7 +5,7 @@
     <data>
         <import type="android.view.View.OnClickListener"/>
         <variable name="onClick" type="android.view.View.OnClickListener" />
-        <variable name="book" type="com.example.starBooks.DTO.Book" />
+        <variable name="book" type="com.example.starBooks.dto.Book" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:imageUrl="@{book.imgUrl}" />
+            app:loadImage="@{book.imgUrl}" />
 
         <LinearLayout
             android:id="@+id/layout_linear"
@@ -139,6 +139,19 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="3dp"
                 android:text="@{book.createAt}"/>
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                android:includeFontPadding="false"
+                android:gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="3dp"
+                android:text="@{book.description}"
+                android:visibility="gone"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

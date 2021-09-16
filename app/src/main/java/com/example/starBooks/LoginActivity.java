@@ -15,8 +15,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
-import com.example.starBooks.DTO.LoginRequest;
-import com.example.starBooks.DTO.LoginResponse;
+import com.example.starBooks.dto.LoginRequest;
+import com.example.starBooks.dto.LoginResponse;
 import com.example.starBooks.databinding.ActivityLoginBinding;
 
 import retrofit2.Call;

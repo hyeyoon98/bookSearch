@@ -11,8 +11,9 @@ import android.widget.Toast;
 
 import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
-import com.example.starBooks.DTO.Book;
-import com.example.starBooks.DTO.Page;
+import com.example.starBooks.dto.Book;
+import com.example.starBooks.dto.Page;
+import com.example.starBooks.RecycleView.RecyclerAdapter;
 import com.example.starBooks.databinding.ActivityMainBinding;
 
 import org.json.JSONArray;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private initMyApi initMyApi;
     private ActivityMainBinding binding;
+    private RecyclerAdapter adapter;
+    private List<Book> bookList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("성공??>>>"+response);
                 if (response.isSuccessful()&&response.body()!=null) {
                     Page result = response.body();
-                    parsingJSONData(result);
+                    bookList = result.getContent();
+
+                    binding.recyclerView.setAdapter(adapter);
+                    binding.setMyList(bookList);
 
                 }
             }

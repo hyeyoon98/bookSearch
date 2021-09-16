@@ -1,9 +1,9 @@
 package com.example.starBooks.APIInterface;
 
-import com.example.starBooks.DTO.LoginRequest;
-import com.example.starBooks.DTO.LoginResponse;
-import com.example.starBooks.DTO.Page;
-import com.example.starBooks.DTO.RegisterRequest;
+import com.example.starBooks.dto.LoginRequest;
+import com.example.starBooks.dto.LoginResponse;
+import com.example.starBooks.dto.Page;
+import com.example.starBooks.dto.RegisterRequest;
 
 import retrofit2.Call;
 import retrofit2.Response;
