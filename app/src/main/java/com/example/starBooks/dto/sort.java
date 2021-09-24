@@ -6,8 +6,10 @@ public class sort {
     @SerializedName("sorted")
     public Boolean sorted;
 
+    @SerializedName("unsorted")
     public Boolean unsorted;
 
+    @SerializedName("empty")
     public Boolean empty;
 
     public void setEmpty(Boolean empty) {

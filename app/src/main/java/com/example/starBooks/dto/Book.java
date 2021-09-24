@@ -31,6 +31,17 @@ public class Book {
     @SerializedName("isbn")
     public String isbn;
 
+    @SerializedName("modifiedAt")
+    public String modifiedAt;
+
+    public String getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(String modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
     public String getIsbn() {
         return isbn;
     }

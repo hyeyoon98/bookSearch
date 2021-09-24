@@ -26,7 +26,7 @@ public class Page {
     public int number;
 
     @SerializedName("sort")
-    public List<sort> sortList;
+    public ArrayList<sort> sortList;
 
     @SerializedName("size")
     public int size;
@@ -41,11 +41,11 @@ public class Page {
     public Boolean empty;
 
 
-    public List<Book> getContent() {
+    public ArrayList<Book> getContent() {
         return content;
     }
 
-    public List<sort> getSortList() {
+    public ArrayList<sort> getSortList() {
         return sortList;
     }
 
@@ -81,7 +81,7 @@ public class Page {
         return totalPages;
     }
 
-    public List<com.example.starBooks.dto.pageable> getPageable() {
+    public ArrayList<pageable> getPageable() {
         return pageable;
     }
 
@@ -89,7 +89,7 @@ public class Page {
         this.content = content;
     }
 
-    public void setSortList(List<sort> sortList) {
+    public void setSortList(ArrayList<sort> sortList) {
         this.sortList = sortList;
     }
 
@@ -113,7 +113,7 @@ public class Page {
         this.numberOfElements = numberOfElements;
     }
 
-    public void setPageable(ArrayList<com.example.starBooks.dto.pageable> pageable) {
+    public void setPageable(ArrayList<pageable> pageable) {
         this.pageable = pageable;
     }
 

@@ -9,4 +9,6 @@
         <item>좋아요순</item>
         <item>리뷰순</item>
     </string-array>
+
+    <string name="TAG">TAG</string>
 </resources>

@@ -1,35 +1,28 @@
-package com.example.starBooks.ListView;
+package com.example.starBooks.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.starBooks.DetailBookListActivity;
 import com.example.starBooks.R;
 import com.example.starBooks.dto.Book;
 import com.example.starBooks.databinding.BookItemListBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter implements View.OnClickListener {
 
     private BookItemListBinding binding;
     private Context context;
-    private List<Book> bookList;
+    private ArrayList<Book> bookList;
 
-    public ListViewAdapter(List<Book> bookList) {
+    public ListViewAdapter(ArrayList<Book> bookList) {
         this.bookList= bookList;
     }
 
@@ -71,6 +64,8 @@ public class ListViewAdapter extends BaseAdapter implements View.OnClickListener
         binding.tvDescription.setText(book.getDescription());
 
         convertView.setOnClickListener(this);
+
+        Log.e("TAG", "listView 확인");
 
         return convertView;
     }

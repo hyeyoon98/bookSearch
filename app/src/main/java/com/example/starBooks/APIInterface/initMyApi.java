@@ -1,5 +1,6 @@
 package com.example.starBooks.APIInterface;
 
+import com.example.starBooks.dto.CheckIdResponse;
 import com.example.starBooks.dto.LoginRequest;
 import com.example.starBooks.dto.LoginResponse;
 import com.example.starBooks.dto.Page;
@@ -11,9 +12,12 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface initMyApi {
+public interface
+
+initMyApi {
     @GET("/api/books")
     Call<Page> getPageResponse(@Query("sort") String sort,
                                @Query("page") int page,
@@ -24,4 +28,7 @@ public interface initMyApi {
 
     @POST("/api/login")
     Call<LoginResponse> getLoginResponse(@Body LoginRequest loginRequest);
+
+    @GET("/api/check/{userId}")
+    Call<CheckIdResponse> getCheckId(@Path("userId") String userId);
 }

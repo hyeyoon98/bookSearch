@@ -5,6 +5,9 @@
     <data>
         <import type="android.view.View.OnClickListener"/>
         <variable name="onClick" type="android.view.View.OnClickListener" />
+        <variable
+            name="book"
+            type="com.example.starBooks.dto.Book" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +24,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@{book.id}"
             android:visibility="gone"/>
 
         <ImageView
@@ -28,7 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@{book.imgUrl}"/>
 
         <LinearLayout
             android:id="@+id/layout_linear"
@@ -53,7 +58,8 @@
                 android:fontFamily="@font/gmarketsansmedium"
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:textSize="18dp"/>
+                android:textSize="18dp"
+                android:text="@{book.title}"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,7 +76,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gmarketsansmedium"
                     android:includeFontPadding="false"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp"
+                    android:text="@{book.author}"/>
 
 
                 <TextView
@@ -81,7 +88,7 @@
                     android:includeFontPadding="false"
                     android:text="-"
                     android:textSize="15dp"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"/>
 
                 <!--출판사-->
                 <TextView
@@ -91,7 +98,8 @@
                     android:fontFamily="@font/gmarketsansmedium"
                     android:includeFontPadding="false"
                     android:textSize="15dp"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:text="@{book.publisher}"/>
 
             </LinearLayout>
 
@@ -119,7 +127,8 @@
                 android:includeFontPadding="false"
                 android:gravity="right"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="3dp"
+                android:text="@{book.price}"/>
 
             <!--출시일-->
             <TextView
@@ -131,7 +140,8 @@
                 android:includeFontPadding="false"
                 android:gravity="right"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="3dp"
+                android:text="@{book.createAt}"/>
 
             <TextView
                 android:id="@+id/tv_description"
@@ -143,7 +153,34 @@
                 android:gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="3dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:text="@{book.description}"/>
+
+            <TextView
+                android:id="@+id/tv_isbn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                android:includeFontPadding="false"
+                android:gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="3dp"
+                android:visibility="gone"
+                android:text="@{book.isbn}"/>
+
+            <TextView
+                android:id="@+id/tv_modifiedAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                android:includeFontPadding="false"
+                android:gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="3dp"
+                android:visibility="gone"
+                android:text="@{book.modifiedAt}"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

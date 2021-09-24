@@ -13,9 +13,4 @@ public class DetailBookListActivity extends AppCompatActivity {
 
     }
 
-    public void name() {
-
-
-
-    }
 }

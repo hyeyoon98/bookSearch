@@ -1,10 +1,11 @@
 package com.example.starBooks;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.BindingAdapter;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
-import com.example.starBooks.ListView.ListViewAdapter;
+import com.example.starBooks.adapter.MainAdapter;
 import com.example.starBooks.dto.Book;
 import com.example.starBooks.dto.Page;
 import com.example.starBooks.databinding.ActivityMainBinding;
@@ -23,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,82 +35,103 @@ public class MainActivity extends AppCompatActivity {
     private RetrofitClient retrofitClient;
     private initMyApi initMyApi;
     private ActivityMainBinding binding;
-    private ListViewAdapter adapter;
-    private List<Book> bookList;
+    private MainAdapter adapter;
+    private ArrayList<Book> bookList_list = new ArrayList<>();
+
+    private int page = 1;
+    private int size = 10;
+    private boolean lastItemVisibleFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this, R.layout.activity_main);
-        initView();
+
+        adapter = new MainAdapter(this, bookList_list);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+
+        initView(page, size);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+
+                @Override
+                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                        page++;
+                        binding.progressBar.setVisibility(View.VISIBLE);
+                        initView(page, size);
+                    }
+                }
+            });
+        }
 
 
         /*spinner*/
         //어댑터 생성
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array,R.layout.spinner_layout);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_array,R.layout.spinner_layout);
         //드롭다운뷰 연결
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         //UI와 연결
-        binding.homeSpinner.setAdapter(adapter);
+        binding.homeSpinner.setAdapter(spinnerAdapter);
     }
 
-    public void initView(){
+    public void initView(int page, int size){
         retrofitClient = RetrofitClient.getInstance();
         initMyApi = RetrofitClient.getRetrofitInterface();
 
-        initMyApi.getPageResponse("createAt", 1,10).enqueue(new Callback<Page>() {
+        initMyApi.getPageResponse("createAt", page,size).enqueue(new Callback<Page>() {
             @Override
             public void onResponse(Call<Page> call, Response<Page> response) {
-                System.out.println("성공??>>>"+response);
                 if (response.isSuccessful()&&response.body()!=null) {
-                    Page result = response.body();
-                    System.out.println("이거 되나요??>>>"+result);
-                    bookList = result.getContent();
-                    binding.swipeLayout.setRefreshing(false);
-                    parsingJSONData(bookList);
+
+                    binding.progressBar.setVisibility(View.GONE);
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(response.body().getContent());
+                        parseResult(jsonArray);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<Page> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "불러오기 실패하셨네요 ㅋㅋ", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT);
             }
         });
 
     }
 
-    private void parsingJSONData(List data) {
-        System.out.println("리스트 가져와 >>>>>>>>>>>" + data);
-        List<Book> bookList = new ArrayList<>();
-
-        try {
-            JSONArray jArray = new JSONArray(data);
-            if (jArray.length()==0) {
-                Toast.makeText(this, "불러오기 실패하셨네요 ㅋㅋ", Toast.LENGTH_SHORT);
-                // 주문 내역이 비었습니다.
-            } else {
-                for(int i = 0; i < jArray.length(); i++) {
-                    Book book = new Book();
-                    JSONObject jObject = jArray.getJSONObject(i);
-
-                    //마켓 이름 저장
-                    book.setId(jObject.getInt("id"));
-                    book.setImgUrl(jObject.getString("imgUrl"));
-                    book.setTitle(jObject.getString("title"));
-                    book.setAuthor(jObject.getString("author"));
-                    book.setPublisher(jObject.getString("publisher"));
-                    book.setPrice(jObject.getInt("price"));
-                    book.setCreateAt(jObject.getString("createAt"));
-                    book.setDescription(jObject.getString("description"));
-                    bookList.add(book);
-                }
-                binding.setListAdapter(new ListViewAdapter(bookList));
-
+    private void parseResult(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++)
+        {
+            try
+            {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Book book = new Book();
+                book.setId(jsonObject.getInt("id"));
+                book.setImgUrl(jsonObject.getString("imgUrl"));
+                book.setTitle(jsonObject.getString("title"));
+                book.setAuthor(jsonObject.getString("author"));
+                book.setPublisher(jsonObject.getString("publisher"));
+                book.setPrice(jsonObject.getInt("price"));
+                book.setCreateAt(jsonObject.getString("createAt"));
+                book.setDescription(jsonObject.getString("description"));
+                book.setIsbn(jsonObject.getString("isbn"));
+                book.setModifiedAt(jsonObject.getString("modifiedAt"));
+                bookList_list.add(book);
             }
-
-
-        } catch(JSONException e) {
-            e.printStackTrace();
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            adapter = new MainAdapter(MainActivity.this, bookList_list);
+            binding.recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 

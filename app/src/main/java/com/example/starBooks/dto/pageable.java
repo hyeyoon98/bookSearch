@@ -2,12 +2,12 @@ package com.example.starBooks.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class pageable {
 
     @SerializedName("sort")
-    public List<sort> sortList;
+    public ArrayList<sort> sortList;
 
     @SerializedName("offset")
     public int offset;
@@ -40,7 +40,7 @@ public class pageable {
         this.pageSize = pageSize;
     }
 
-    public void setSortList(List<sort> sortList) {
+    public void setSortList(ArrayList<sort> sortList) {
         this.sortList = sortList;
     }
 
@@ -68,7 +68,7 @@ public class pageable {
         return pageSize;
     }
 
-    public List<sort> getSortList() {
+    public ArrayList<sort> getSortList() {
         return sortList;
     }
 

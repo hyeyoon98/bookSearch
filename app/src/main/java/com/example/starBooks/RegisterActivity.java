@@ -2,9 +2,12 @@ package com.example.starBooks;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +21,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.starBooks.APIInterface.RetrofitClient;
 import com.example.starBooks.APIInterface.initMyApi;
+import com.example.starBooks.dto.CheckIdResponse;
 import com.example.starBooks.dto.RegisterRequest;
 import com.example.starBooks.databinding.ActivityRegisterBinding;
 import com.example.starBooks.dto.RegisterResponse;
@@ -46,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         binding.setTitle("회원가입");
-        binding.startButton.setOnClickListener(this);
+        binding.setOnClick(this);
     }
 
     @Override
@@ -90,6 +94,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
             }, year, month, day);
             datePickerDialog.show();
+        } else if (v.getId() == R.id.check_id) {
+            if (binding.insertId.getText().toString().trim() == null) {
+                RequestCheckId();
+            } else {
+                showAlert("아이디를 입력해주세요.111111");
+            }
         }
     }
 
@@ -114,13 +124,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     RegisterResponse result = response.body();
                     String code = result.getCode();
 
-                    if (code.equals("E0008")) {
+                    if (code.equals("E0008") && getPreferenceString("checkId").equals("E0008")) {
                         Toast.makeText(RegisterActivity.this,"회원가입이 완료되었습니다.",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             /*        intent.putExtra(userId, userId);
                     intent.putExtra(userPw, userPw);*/
                         startActivity(intent);
                         finish();
+                    } else if (getPreferenceString("checkId").equals("E0004")) {
+                        showAlert("아이디 중복확인을 확인해주세요");
                     }
 
                 }
@@ -136,13 +148,66 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    public void RequestCheckId() {
+        String userId = binding.insertId.getText().toString().trim();
 
-    /*public void setPreference(String key, String value){
+        retrofitClient = RetrofitClient.getInstance();
+        initMyApi = RetrofitClient.getRetrofitInterface();
+
+        initMyApi.getCheckId(userId).enqueue(new Callback<CheckIdResponse>() {
+            @Override
+            public void onResponse(Call<CheckIdResponse> call, Response<CheckIdResponse> response) {
+
+                if (response.body() != null) {
+                    CheckIdResponse result = response.body();
+                    String code = result.getCode();
+                    String msg = result.getMessage();
+
+                    if (response.code() == 200) {
+
+                        Log.e("TAG", "Code 200");
+
+                        if (code.equals("E0008")) {
+                            showToast(msg);
+                            binding.insertId.setInputType(InputType.TYPE_NULL);
+                        }
+
+                    } else if (response.code() == 400 ) {
+                        Log.d("TAG", "Code 400");
+                        showAlert("중복된 아이디입니다");
+                    }
+
+                    setPreference("checkId", code);
+                }
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<CheckIdResponse> call, Throwable t) {
+
+
+                Log.d("TAG", "ErrorCode 400");
+
+
+
+            }
+        });
+    }
+
+
+    public void setPreference(String key, String value){
         SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
         editor.apply();
-    }*/
+    }
+
+    public String getPreferenceString(String key) {
+        SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
+        return pref.getString(key, "");
+    }
 
     //화면 터치 시 키보드 내려감
     @Override
@@ -184,6 +249,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
         return false;
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 }
