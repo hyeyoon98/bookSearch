@@ -2,16 +2,17 @@ package com.example.starBooks.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Page {
 
     @SerializedName("content")
-    public ArrayList<Book> content = new ArrayList<>();
+    public List<Book> content = new ArrayList<>();
 
     @SerializedName("pageable")
-    public ArrayList<pageable> pageable = new ArrayList<>();
+    public pageable pageable;
 
     @SerializedName("totalElements")
     public int totalElements;
@@ -26,7 +27,7 @@ public class Page {
     public int number;
 
     @SerializedName("sort")
-    public ArrayList<sort> sortList;
+    public sort sortList;
 
     @SerializedName("size")
     public int size;
@@ -41,11 +42,11 @@ public class Page {
     public Boolean empty;
 
 
-    public ArrayList<Book> getContent() {
+    public List<Book> getContent() {
         return content;
     }
 
-    public ArrayList<sort> getSortList() {
+    public sort getSortList() {
         return sortList;
     }
 
@@ -81,15 +82,15 @@ public class Page {
         return totalPages;
     }
 
-    public ArrayList<pageable> getPageable() {
+    public pageable getPageable() {
         return pageable;
     }
 
-    public void setContent(ArrayList<Book> content) {
+    public void setContent(List<Book> content) {
         this.content = content;
     }
 
-    public void setSortList(ArrayList<sort> sortList) {
+    public void setSortList(sort sortList) {
         this.sortList = sortList;
     }
 
@@ -113,7 +114,7 @@ public class Page {
         this.numberOfElements = numberOfElements;
     }
 
-    public void setPageable(ArrayList<pageable> pageable) {
+    public void setPageable(pageable pageable) {
         this.pageable = pageable;
     }
 
@@ -128,7 +129,6 @@ public class Page {
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
-
 
 
     @Override

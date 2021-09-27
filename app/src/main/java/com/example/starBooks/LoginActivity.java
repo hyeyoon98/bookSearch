@@ -33,14 +33,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public final String DATA_STORE = "DATA_STORE";
     String autoLoginId = "autoLoginId";
     String autoLoginPw = "autoLoginPw";
-    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setOnClick(this);
-        backPressCloseHandler = new BackPressCloseHandler(this);
 
         if (!getPreferenceString(autoLoginId).equals("") && !getPreferenceString(autoLoginPw).equals("")) {
             binding.autoLogin.setChecked(true);
@@ -164,11 +162,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-    @Override public void onBackPressed() {
-        //super.onBackPressed();
-        backPressCloseHandler.onBackPressed();
     }
 
     public void showAlert(String message) {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class pageable {
 
     @SerializedName("sort")
-    public ArrayList<sort> sortList;
+    public sort sortList;
 
     @SerializedName("offset")
     public int offset;
@@ -40,7 +40,7 @@ public class pageable {
         this.pageSize = pageSize;
     }
 
-    public void setSortList(ArrayList<sort> sortList) {
+    public void setSortList(sort sortList) {
         this.sortList = sortList;
     }
 
@@ -68,19 +68,9 @@ public class pageable {
         return pageSize;
     }
 
-    public ArrayList<sort> getSortList() {
+    public sort getSortList() {
         return sortList;
     }
 
-    @Override
-    public String toString() {
-        return "pageable{" +
-                "sortList=" + sortList +
-                ", offset=" + offset +
-                ", pageNumber=" + pageNumber +
-                ", pageSize=" + pageSize +
-                ", paged=" + paged +
-                ", unpaged=" + unpaged +
-                '}';
-    }
+
 }

@@ -36,12 +36,4 @@ public class sort {
         return unsorted;
     }
 
-    @Override
-    public String toString() {
-        return "sort{" +
-                "sorted=" + sorted +
-                ", unsorted=" + unsorted +
-                ", empty=" + empty +
-                '}';
-    }
 }

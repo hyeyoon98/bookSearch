@@ -1,12 +1,19 @@
 package com.example.starBooks;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,11 +26,13 @@ import com.example.starBooks.dto.Book;
 import com.example.starBooks.dto.Page;
 import com.example.starBooks.databinding.ActivityMainBinding;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,26 +41,79 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RetrofitClient retrofitClient;
-    private initMyApi initMyApi;
-    private ActivityMainBinding binding;
-    private MainAdapter adapter;
-    private ArrayList<Book> bookList_list = new ArrayList<>();
+    public RetrofitClient retrofitClient;
+    public initMyApi initMyApi;
+    public ActivityMainBinding binding;
+    public MainAdapter adapter;
+    public List<Book> bookList_list = new ArrayList<>();
 
+    public final String DATA_STORE = "DATA_STORE";
+    private String sort = "createAt";
+
+    //page
     private int page = 1;
-    private int size = 10;
-    private boolean lastItemVisibleFlag = false;
+    private final int size = 10;
+
+
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this, R.layout.activity_main);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
-        adapter = new MainAdapter(this, bookList_list);
+
+        adapter = new MainAdapter(MainActivity.this, bookList_list);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        initView(page, size);
         binding.recyclerView.setAdapter(adapter);
 
-        initView(page, size);
+
+
+        //Floating Button
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getPreferenceString("token") != null ) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("알림")
+                            .setMessage("현재 비회원 상태입니다. 로그인하시겠습니까?")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("취소", null)
+                            .create()
+                            .show();
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.dismiss();
+
+                }
+            }
+        });
+
+        /*binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int pastPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                int lastPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int totalCount = recyclerView.getAdapter().getItemCount();
+
+                if (lastPosition == totalCount) {
+                    page++;
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    initView(page, size);
+                }
+            }
+        });*/
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -61,12 +123,19 @@ public class MainActivity extends AppCompatActivity {
                     if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                         page++;
                         binding.progressBar.setVisibility(View.VISIBLE);
+                        adapter.notifyDataSetChanged();
+                        initView(page, size);
+                    } else if (page == 0) {
+                        showToast("첫 페이지입니다");
+                    } else if (scrollY==0){
+                        page--;
+                        binding.progressBar.setVisibility(View.VISIBLE);
+                        adapter.notifyDataSetChanged();
                         initView(page, size);
                     }
                 }
             });
         }
-
 
         /*spinner*/
         //어댑터 생성
@@ -81,60 +150,34 @@ public class MainActivity extends AppCompatActivity {
         retrofitClient = RetrofitClient.getInstance();
         initMyApi = RetrofitClient.getRetrofitInterface();
 
-        initMyApi.getPageResponse("createAt", page,size).enqueue(new Callback<Page>() {
+        initMyApi.getPageResponse(sort, page,size).enqueue(new Callback<Page>() {
             @Override
-            public void onResponse(Call<Page> call, Response<Page> response) {
-                if (response.isSuccessful()&&response.body()!=null) {
+            public void onResponse(Call<Page> call,Response<Page> response) {
+                if (response.isSuccessful() && response.body() != null) {
 
+
+                    System.out.println("response >>>" + response);
+
+                    Page result = response.body();
+                    bookList_list = result.getContent();
                     binding.progressBar.setVisibility(View.GONE);
 
-                    try {
-                        JSONArray jsonArray = new JSONArray(response.body().getContent());
-                        parseResult(jsonArray);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    adapter = new MainAdapter(MainActivity.this, bookList_list);
+                    binding.recyclerView.setAdapter(adapter);
 
+                } else {
+                    Toast.makeText(MainActivity.this, "받아지긴 함", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Page> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT);
+            public void onFailure(@NotNull Call<Page> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
 
     }
-
-    private void parseResult(JSONArray jsonArray) {
-        for (int i = 0; i < jsonArray.length(); i++)
-        {
-            try
-            {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Book book = new Book();
-                book.setId(jsonObject.getInt("id"));
-                book.setImgUrl(jsonObject.getString("imgUrl"));
-                book.setTitle(jsonObject.getString("title"));
-                book.setAuthor(jsonObject.getString("author"));
-                book.setPublisher(jsonObject.getString("publisher"));
-                book.setPrice(jsonObject.getInt("price"));
-                book.setCreateAt(jsonObject.getString("createAt"));
-                book.setDescription(jsonObject.getString("description"));
-                book.setIsbn(jsonObject.getString("isbn"));
-                book.setModifiedAt(jsonObject.getString("modifiedAt"));
-                bookList_list.add(book);
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            adapter = new MainAdapter(MainActivity.this, bookList_list);
-            binding.recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
 
 
     //Spinner Listener
@@ -146,10 +189,16 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 1:
+                        sort = "createAt";
+                        initView(page, size);
                         break;
                     case 2:
+                        sort = "heart";
+                        initView(page, size);
                         break;
                     case 3:
+                        sort = "starRate";
+                        initView(page, size);
                         break;
                 }
             }
@@ -161,6 +210,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void setPreference(String key, String value){
+        SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public String getPreferenceString(String key) {
+        SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
+        return pref.getString(key, "");
+    }
+
+    public void showAlert(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("알림")
+                .setMessage(message)
+                .setPositiveButton("확인", null)
+                .create()
+                .show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    //뒤로가기 버튼 2회 클릭 시 종료
+    @Override public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
 
 }

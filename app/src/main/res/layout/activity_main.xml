@@ -11,49 +11,49 @@
             type="com.example.starBooks.adapter.MainAdapter" />
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/home_logo"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:background="@drawable/logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <Spinner
-            android:id="@+id/home_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_logo"
-            android:layout_marginStart="10dp"/>
+            <ImageView
+                android:id="@+id/home_logo"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:background="@drawable/logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="10dp"/>
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D3D3D3"
-            android:layerType="software"
-            app:layout_constraintTop_toBottomOf="@+id/home_spinner"
-            android:layout_marginTop="8dp"/>
+            <Spinner
+                android:id="@+id/home_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_logo"
+                android:layout_marginStart="10dp"/>
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#D3D3D3"
+                android:layerType="software"
+                app:layout_constraintTop_toBottomOf="@+id/home_spinner"
+                android:layout_marginTop="8dp"/>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scroll_view"
@@ -68,7 +68,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:adapter="@{mainAdapter}"/>
 
@@ -79,8 +79,32 @@
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </LinearLayout>
+
+            <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab"
+            android:backgroundTint="@color/yellow_FF"
+            app:tint="@color/white"
+            android:contentDescription="회원"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
 

@@ -1,5 +1,10 @@
 package com.example.starBooks.dto;
 
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
 
 public class Book {
@@ -114,5 +119,27 @@ public class Book {
         this.createAt = createAt;
     }
 
+    @BindingAdapter("setImage")
+    public static void setImageUrl(ImageView imageView, String imgUrl) {
+        Glide.with(imageView.getContext())
+                .load(imgUrl)
+                .into(imageView);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", price=" + price +
+                ", createAt='" + createAt + '\'' +
+                ", description='" + description + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", modifiedAt='" + modifiedAt + '\'' +
+                '}';
+    }
 }
 

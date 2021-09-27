@@ -16,15 +16,17 @@ import com.example.starBooks.databinding.BookItemListBinding;
 import com.example.starBooks.dto.Book;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> implements View.OnClickListener {
 
-    private ArrayList<Book> bookArrayList;
+    private List<Book> bookList;
     private Activity activity;
 
-    public MainAdapter (Activity activity, ArrayList<Book> bookArrayList) {
+    public MainAdapter (Activity activity, List<Book> bookList) {
         this.activity = activity;
-        this.bookArrayList = bookArrayList;
+        this.bookList = bookList;
+        System.out.println("bookList Adapter>>>" + bookList);
     }
 
     @NonNull
@@ -37,15 +39,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Book book = bookArrayList.get(position);
+        Book book = bookList.get(position);
         holder.bind(book);
-        holder.binding.setOnClick(this);
-
+        System.out.println("book >>>" + book);
     }
 
     @Override
     public int getItemCount() {
-        return bookArrayList.size();
+        return bookList.size();
     }
 
 
@@ -64,6 +65,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
         public ViewHolder(@NonNull BookItemListBinding binding) {
             super(binding.getRoot());
             this.binding=binding;
+            System.out.println("binding >> " + binding);
         }
 
         public void bind(Object object) {
@@ -71,4 +73,5 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
             binding.executePendingBindings();
         }
     }
+
 }

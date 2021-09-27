@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (binding.insertId.getText().toString().trim() == null) {
                 RequestCheckId();
             } else {
-                showAlert("아이디를 입력해주세요.111111");
+                showAlert("아이디를 입력해주세요.");
             }
         }
     }
