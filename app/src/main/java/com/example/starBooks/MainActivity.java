@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
     public List<Book> bookList_list = new ArrayList<>();
 
     public final String DATA_STORE = "DATA_STORE";
-    private String sort = "createAt";
+
 
     //page
+    private String sort = "createAt";
     private int page = 1;
     private final int size = 10;
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         initView(page, size);
         binding.recyclerView.setAdapter(adapter);
+
 
 
 
@@ -120,16 +122,17 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    System.out.println("page넘버 >>>" + page);
                     if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                        page++;
-                        binding.progressBar.setVisibility(View.VISIBLE);
+                        ++page;
+                        /*binding.progressBar.setVisibility(View.VISIBLE);*/
                         adapter.notifyDataSetChanged();
                         initView(page, size);
                     } else if (page == 0) {
                         showToast("첫 페이지입니다");
-                    } else if (scrollY==0){
-                        page--;
-                        binding.progressBar.setVisibility(View.VISIBLE);
+                    } else if (scrollY==0 && page > 0){
+                        --page;
+                        /*binding.progressBar.setVisibility(View.VISIBLE);*/
                         adapter.notifyDataSetChanged();
                         initView(page, size);
                     }
@@ -159,14 +162,12 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("response >>>" + response);
 
                     Page result = response.body();
-                    bookList_list = result.getContent();
-                    binding.progressBar.setVisibility(View.GONE);
+                    bookList_list = result.getContent();/*
+                    binding.progressBar.setVisibility(View.GONE);*/
 
                     adapter = new MainAdapter(MainActivity.this, bookList_list);
                     binding.recyclerView.setAdapter(adapter);
 
-                } else {
-                    Toast.makeText(MainActivity.this, "받아지긴 함", Toast.LENGTH_SHORT).show();
                 }
             }
 

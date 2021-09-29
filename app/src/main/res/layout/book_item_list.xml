@@ -11,9 +11,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/white"
+        android:layout_height="140dp"
+        android:background="@drawable/box_shadow"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:onClick="onClick">
@@ -34,6 +36,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerInside"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
             setImage="@{book.imgUrl}"/>
 
         <LinearLayout
@@ -58,8 +63,9 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/gmarketsansmedium"
                 android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:textSize="15dp"
                 android:maxLines="1"
-                android:textSize="18dp"
                 android:text="@{book.title}"/>
 
             <!--저자-->
@@ -68,9 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gmarketsansmedium"
+                android:textColor="#B0B0B0"
                 android:includeFontPadding="false"
-                android:textSize="15dp"
-
+                android:textSize="13dp"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="5dp"
                 android:text="@{book.author}"/>
@@ -81,11 +87,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gmarketsansmedium"
+                android:textColor="#B0B0B0"
                 android:includeFontPadding="false"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="5dp"
                 android:text="@{book.publisher}"/>
+
+            <!--가격-->
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:fontFamily="@font/gmarketsansbold"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="8dp"
+                android:text="@{Integer.toString(book.price)+ '원'}"/>
 
         </LinearLayout>
 
@@ -101,18 +121,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp">
 
-            <!--가격-->
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:fontFamily="@font/gmarketsanslight"
-                android:includeFontPadding="false"
-                android:gravity="right"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="3dp"
-                android:text="@{Integer.toString(book.price)+ '원'}"/>
+
 
             <!--출시일-->
             <TextView
@@ -125,7 +134,8 @@
                 android:gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="3dp"
-                android:text="@{book.createAt}"/>
+                android:text="@{book.createAt}"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_description"

@@ -2,7 +2,7 @@ package com.example.starBooks.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CheckIdResponse {
+public class HeartResponse {
 
     public String getCode() {
         return code;
@@ -13,7 +13,7 @@ public class CheckIdResponse {
     }
 
     @SerializedName("code")
-    String code;
+    public String code;
 
     public String getMessage() {
         return message;
@@ -24,13 +24,25 @@ public class CheckIdResponse {
     }
 
     @SerializedName("message")
-    String message;
+    public String message;
+
+    public com.example.starBooks.dto.map getMap() {
+        return map;
+    }
+
+    public void setMap(com.example.starBooks.dto.map map) {
+        this.map = map;
+    }
+
+    @SerializedName("map")
+    public map map;
 
     @Override
     public String toString() {
-        return "CheckIdResponse{" +
+        return "HeartRevise{" +
                 "code='" + code + '\'' +
                 ", message='" + message + '\'' +
+                ", map=" + map +
                 '}';
     }
 }

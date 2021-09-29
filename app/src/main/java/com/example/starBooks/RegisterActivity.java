@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }, year, month, day);
             datePickerDialog.show();
         } else if (v.getId() == R.id.check_id) {
-            if (binding.insertId.getText().toString().trim() == null) {
+            if (binding.insertId.getText().toString().trim() != null) {
                 RequestCheckId();
             } else {
                 showAlert("아이디를 입력해주세요.");

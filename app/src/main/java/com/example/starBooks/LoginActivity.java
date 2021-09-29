@@ -88,7 +88,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String code = result.getCode();
                     String msg = result.getMessage();
                     System.out.println("메세지 >>>>>>>>>>"+msg);
-                    String token = result.getToken();
+                    String accessToken = result.getTokenResponseDto().getAccessToken();
+                    String refreshToken = result.getTokenResponseDto().getRefreshToken();
 
 
                     switch (code) {
@@ -107,7 +108,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             showToast(msg);
 
                         case "E0008" :
-                            setPreference("token", token);
+
+                            setPreference("refreshToken", refreshToken );
+                            setPreference("accessToken", accessToken);
                             showToast("반갑습니다");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -121,7 +124,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
     }

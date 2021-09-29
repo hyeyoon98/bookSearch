@@ -9,8 +9,16 @@ public class LoginResponse {
     @SerializedName("message")
     public String message;
 
-    @SerializedName("token")
-    public String token;
+    public com.example.starBooks.dto.tokenResponseDto getTokenResponseDto() {
+        return tokenResponseDto;
+    }
+
+    public void setTokenResponseDto(com.example.starBooks.dto.tokenResponseDto tokenResponseDto) {
+        this.tokenResponseDto = tokenResponseDto;
+    }
+
+    @SerializedName("tokenResponseDto")
+    public tokenResponseDto tokenResponseDto;
 
     public String getCode() {
         return code;
@@ -28,12 +36,12 @@ public class LoginResponse {
         this.message = message;
     }
 
-    public String getToken() {
-        return token;
+    @Override
+    public String toString() {
+        return "LoginResponse{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", tokenResponseDto=" + tokenResponseDto +
+                '}';
     }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
 }

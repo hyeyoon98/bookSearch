@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.example.starBooks.dto.Book"/>
+
+        <variable
+            name="book"
+            type="com.example.starBooks.dto.Book" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="parallax">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_collapseMode="pin">
+
+                        <ImageView
+                            android:id="@+id/home_logo"
+                            android:layout_width="250dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/logo"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginTop="10dp"/>
+
+                        <View
+                            android:id="@+id/line1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#D3D3D3"
+                            android:layerType="software"
+                            app:layout_constraintTop_toBottomOf="@+id/home_logo"
+                            android:layout_marginTop="8dp"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:id="@+id/book_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitCenter"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        setImage="@{book.imgUrl}"/>
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{book.title}"
+                        android:fontFamily="@font/gmarketsansmedium"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:lineSpacingExtra="5dp"
+                        android:layout_margin="10dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/linebox_gray">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{book.author+' '+'|'+ ' ' +book.publisher+' '+'|'+' '+book.createAt}"
+                            android:fontFamily="@font/gmarketsansmedium"
+                            android:includeFontPadding="false"
+                            android:textSize="13dp"
+                            android:layout_margin="10dp"
+                            android:padding="10dp"/>
+
+
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:id="@+id/line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#D3D3D3"
+                        android:layerType="software"
+                        app:layout_constraintTop_toBottomOf="@+id/home_logo"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{Integer.toString(book.price)+ '원'}"
+                            android:textSize="18dp"
+                            android:fontFamily="@font/gmarketsansbold"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/black"/>
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_heart_regular"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginBottom="3dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:textColor="#FF0000"
+                            android:textSize="10dp"
+                            android:text="마음에 드신다면 하트를 눌러 찜해보세요!"
+                            android:fontFamily="@font/gmarketsansbold"
+                            android:includeFontPadding="false"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorColor="#13037A"
+                    app:tabIndicatorGravity="top"
+                    app:tabTextColor="#13037A"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabBackground="@drawable/tab_background"
+                    app:tabTextAppearance="@style/TabText" />
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab"
+            android:backgroundTint="@color/yellow_FF"
+            app:tint="@color/white"
+            android:contentDescription="회원"
+            android:layout_gravity="bottom|end"
+            app:borderWidth="0dp"
+            android:layout_margin="20dp"
+            app:layout_collapseMode="pin"/>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
