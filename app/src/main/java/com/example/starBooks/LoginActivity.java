@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setOnClick(this);
 
-        if (!getPreferenceString(autoLoginId).equals("") && !getPreferenceString(autoLoginPw).equals("")) {
+        if (getPreferenceString(autoLoginId) != null && getPreferenceString(autoLoginPw) != null) {
             binding.autoLogin.setChecked(true);
             checkAutoLogin(getPreferenceString(autoLoginId));
         }
@@ -55,8 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     LoginRequest();
                 }
-
-
                 break;
 
             case R.id.btn_register:
@@ -108,9 +106,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             showToast(msg);
 
                         case "E0008" :
-
                             setPreference("refreshToken", refreshToken );
                             setPreference("accessToken", accessToken);
+                            System.out.println("accessToken >>>" + accessToken);
                             showToast("반갑습니다");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -139,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public String getPreferenceString(String key) {
         SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
-        return pref.getString(key, "");
+        return pref.getString(key, null);
     }
 
     public void checkAutoLogin(String id){

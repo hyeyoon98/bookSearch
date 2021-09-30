@@ -1,6 +1,7 @@
 package com.example.starBooks.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,10 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private List<Comment> commentList;
-    private Fragment fragment;
+    private Context context;
 
-    public CommentAdapter (Fragment fragment, List<Comment> commentList) {
-        this.fragment = fragment;
+    public CommentAdapter (Context context, List<Comment> commentList) {
+        this.context = context;
         this.commentList = commentList;
         System.out.println("bookList Adapter>>>" + commentList);
     }

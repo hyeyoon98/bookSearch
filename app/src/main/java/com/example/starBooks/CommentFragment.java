@@ -29,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static java.lang.Float.NaN;
 
 public class CommentFragment extends Fragment {
 
@@ -37,7 +38,6 @@ public class CommentFragment extends Fragment {
     private FragmentCommentBinding binding;
     private CommentAdapter adapter;
     private List<Comment> commentList = new ArrayList<>();
-    private int bookId;
 
     public final String DATA_STORE = "DATA_STORE";
 
@@ -56,9 +56,10 @@ public class CommentFragment extends Fragment {
             @Override public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle)
             {
                 if (bundle.getInt("bookId") != 0) {
-                    bookId = bundle.getInt("bookId");
-                    System.out.println("----------------------------"+bookId);
-
+                    int bookId = bundle.getInt("bookId");
+                    binding.recyclerViewComment.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    initCommentList(bookId);
+                    System.out.println("bookId_comment >>>" + bookId );
                 }
 
             }
@@ -75,10 +76,7 @@ public class CommentFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_comment,container,false);
         View root = binding.getRoot();
 
-        adapter = new CommentAdapter(this,commentList);
-        binding.recyclerViewComment.setLayoutManager(new LinearLayoutManager(getContext()));
-        initCommentList(bookId);
-        binding.recyclerViewComment.setAdapter(adapter);
+
 
         return root;
     }
@@ -87,7 +85,9 @@ public class CommentFragment extends Fragment {
         retrofitClient = RetrofitClient.getInstance();
         initMyApi=RetrofitClient.getRetrofitInterface();
 
-        initMyApi.getCommentList(getPreferenceString("accessToken"),bookId).enqueue(new Callback<CommentResponse>() {
+        String token;
+
+        initMyApi.getCommentList(bookId).enqueue(new Callback<CommentResponse>() {
             @Override
             public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -97,44 +97,57 @@ public class CommentFragment extends Fragment {
 
                         //리뷰
                         commentList = result.commentMap.getCommentList();
-                        adapter = new CommentAdapter(CommentFragment.this, commentList);
-                        binding.recyclerViewComment.setAdapter(adapter);
-
-                        binding.avgStarRate.setText(String.format(Locale.US,"%.1f",result.commentMap.avgStarRate));
-                        int avgStar = Math.round(result.commentMap.avgStarRate);
-
-                        //평점
-                        switch (avgStar) {
-                            case 1:
-                                binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
-                                break;
-
-                            case 2:
-                                binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
-                                break;
-
-                            case 3:
-                                binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star3.setBackgroundResource(R.drawable.ic_star_solid);
-                                break;
-
-                            case 4:
-                                binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star3.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star4.setBackgroundResource(R.drawable.ic_star_solid);
-                                break;
-
-                            case 5:
-                                binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star3.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star4.setBackgroundResource(R.drawable.ic_star_solid);
-                                binding.star5.setBackgroundResource(R.drawable.ic_star_solid);
-                                break;
+                        if (commentList != null) {
+                            binding.recyclerViewComment.setVisibility(View.VISIBLE);
+                            adapter = new CommentAdapter(getActivity(), commentList);
+                            binding.recyclerViewComment.setAdapter(adapter);
+                        } else {
+                            binding.tvFirstReview.setVisibility(View.VISIBLE);
                         }
+
+                        if (result.commentMap.getAvgStarRate() == NaN) {
+                            binding.avgStarRate.setText("0.0");
+                        } else {
+
+                            binding.avgStarRate.setText(String.format(Locale.US,"%.1f",result.commentMap.avgStarRate));
+                            int avgStar = Math.round(result.commentMap.avgStarRate);
+
+                            //평점
+                            switch (avgStar) {
+                                case 1:
+                                    binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
+                                    break;
+
+                                case 2:
+                                    binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
+                                    break;
+
+                                case 3:
+                                    binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star3.setBackgroundResource(R.drawable.ic_star_solid);
+                                    break;
+
+                                case 4:
+                                    binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star3.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star4.setBackgroundResource(R.drawable.ic_star_solid);
+                                    break;
+
+                                case 5:
+                                    binding.star1.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star2.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star3.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star4.setBackgroundResource(R.drawable.ic_star_solid);
+                                    binding.star5.setBackgroundResource(R.drawable.ic_star_solid);
+                                    break;
+                            }
+
+                        }
+
+
 
                     }
 

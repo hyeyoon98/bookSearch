@@ -9,11 +9,10 @@ import com.example.starBooks.dto.LoginResponse;
 import com.example.starBooks.dto.Page;
 import com.example.starBooks.dto.RegisterRequest;
 import com.example.starBooks.dto.RegisterResponse;
+import com.example.starBooks.dto.ResponseMessage;
 
-import javax.xml.transform.Result;
-
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -45,28 +44,33 @@ initMyApi {
 
 
     //리뷰 조회
-    @GET("/api/books/{bookId}/comments")
-    Call<CommentResponse> getCommentList(@Header("accessToken") String accessToken, @Path("books_Id") int bookId);
+    @GET("/api/books/{book_id}/comments")
+    Call<CommentResponse> getCommentList(@Path("book_id") int bookId);
 
     //리뷰 삭제
     @DELETE("/api/books/{book_id}/comments/{comment_id}")
-    Call<Response<Result>> requestDeleteComment(@Header("accessToken") String accessToken, @Path("books_Id") int bookId, @Path("comment_id") long commentId);
+    Call<ResponseMessage> requestDeleteComment(@Header("Authorization") String accessToken, @Path("book_id") int bookId, @Path("comment_id") long commentId);
 
     //리뷰 수정
     @PUT("/api/books/{book_id}/comments/{comment_id}")
-    Call<Response<Result>> requestReviseComment(@Header("accessToken") String accessToken,@Path("books_Id") int bookId, @Path("comment_id") long commentId);
+    Call<ResponseMessage> requestReviseComment(@Header("Authorization") String accessToken,@Path("book_id") int bookId, @Path("comment_id") long commentId);
 
     //좋아요 조회
     @GET("/api/books/{book_id}/heart")
-    Call<HeartResponse> getHeart(@Header("accessToken") String accessToken, @Path("books_Id") int bookId);
+    Call<HeartResponse> getHeart(@Header("Authorization") String accessToken, @Path("book_id") int bookId);
 
     //좋아요 클릭
     @POST("/api/books/{book_id}/heart")
-    Call<Response<Result>> ClickHeart(@Header("accessToken") String accessToken, @Path("books_Id") int bookId);
+    Call<ResponseMessage> clickHeart(@Header("Authorization") String accessToken, @Path("book_id") int bookId);
 
     //좋아요 취소
     @DELETE("/api/books/{book_id}/heart")
-    Call<Response<Result>> requestDeleteHeart(@Header("accessToken") String accessToken, @Path("books_Id") int bookId);
+    Call<ResponseMessage> requestDeleteHeart(@Header("Authorization") String accessToken, @Path("book_id") int bookId);
+
+    /*@POST("/api/reissue")
+    Call<ResponseMessage> requestRefreshToken()*/
+
+
 
 
 

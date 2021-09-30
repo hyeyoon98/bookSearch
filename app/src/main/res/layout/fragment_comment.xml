@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="commentAdapter"
-            type="com.example.starBooks.CommentFragment" />
+            type="com.example.starBooks.adapter.CommentAdapter" />
 
     </data>
 
@@ -85,8 +85,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/gmarketsansbold"
                 android:includeFontPadding="false"
-                android:layout_marginStart="8dp"
-                android:text="5.0"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,12 +107,22 @@
             android:layerType="software"
             android:layout_marginTop="8dp"/>
 
+        <TextView
+            android:id="@+id/tv_first_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="첫 리뷰를 작성해주세요"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:adapter="@{commentAdapter}"/>
+            app:adapter="@{commentAdapter}"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

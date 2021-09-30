@@ -64,11 +64,10 @@ public class MainActivity extends AppCompatActivity {
         binding= DataBindingUtil.setContentView(this, R.layout.activity_main);
         backPressCloseHandler = new BackPressCloseHandler(this);
 
-
-        adapter = new MainAdapter(MainActivity.this, bookList_list);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         initView(page, size);
-        binding.recyclerView.setAdapter(adapter);
+
+        System.out.println("저장된 accessToken >>>" + getPreferenceString("accessToken") );
 
 
 
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getPreferenceString("token") != null ) {
+                if (getPreferenceString("accessToken") == null ) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("알림")
                             .setMessage("현재 비회원 상태입니다. 로그인하시겠습니까?")
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String getPreferenceString(String key) {
         SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
-        return pref.getString(key, "");
+        return pref.getString(key, null);
     }
 
     public void showAlert(String message) {

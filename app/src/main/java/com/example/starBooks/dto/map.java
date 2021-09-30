@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class map {
 
-    public boolean isHeart() {
+    public boolean getIsHeart() {
         return isHeart;
     }
 
-    public void setHeart(boolean heart) {
+    public void setIsHeart(boolean heart) {
         isHeart = heart;
     }
 
