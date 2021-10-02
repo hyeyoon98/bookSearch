@@ -2,6 +2,7 @@ package com.example.starBooks.APIInterface;
 
 import com.example.starBooks.dto.Book;
 import com.example.starBooks.dto.CheckIdResponse;
+import com.example.starBooks.dto.CommentRegisterRequest;
 import com.example.starBooks.dto.CommentResponse;
 import com.example.starBooks.dto.HeartResponse;
 import com.example.starBooks.dto.LoginRequest;
@@ -46,6 +47,9 @@ initMyApi {
     //리뷰 조회
     @GET("/api/books/{book_id}/comments")
     Call<CommentResponse> getCommentList(@Path("book_id") int bookId);
+
+    @POST("/api/books/{book_id}/comments")
+    Call<ResponseMessage> requestRegisterComment(@Header("Authorization") String accessToken, @Path("book_id") int bookId, @Body CommentRegisterRequest commentRegisterRequest);
 
     //리뷰 삭제
     @DELETE("/api/books/{book_id}/comments/{comment_id}")

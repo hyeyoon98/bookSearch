@@ -24,6 +24,9 @@ import com.example.starBooks.dto.ResponseMessage;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.transform.Result;
 
 import okhttp3.ResponseBody;
@@ -34,7 +37,7 @@ import retrofit2.Response;
 public class DetailBookListActivity extends FragmentActivity implements View.OnClickListener {
 
     private ViewPager2 viewPager2;
-    private FragmentStateAdapter pagerAdapter;
+    private ViewPager2Adapter viewPager2Adapter;
 
     public final String DATA_STORE = "DATA_STORE";
     private final int NUM_PAGES = 2;
@@ -54,20 +57,21 @@ public class DetailBookListActivity extends FragmentActivity implements View.OnC
         Intent intent = getIntent();
         getBookId = intent.getExtras().getInt("book_id");
 
-        System.out.println("bookId_detail >>>" + getBookId);
+        Fragment informationFragment = new InformationFragment().newInstance(getBookId);
+        Fragment commentFragment = new CommentFragment().newInstance(getBookId);
 
-
-
-        Bundle bundle = new Bundle();
+        /*Bundle bundle = new Bundle();
         bundle.putInt("bookId", getBookId);
-        /*informationFragment.setArguments(bundle);*/
         getSupportFragmentManager().setFragmentResult("bookId", bundle);
 
-        System.out.println("bookId_detail" + bundle);
+        System.out.println("bookId_detail" + bundle);*/
 
 
-        pagerAdapter = new viewPagerAdapter(this);
-        binding.viewPager2.setAdapter(pagerAdapter);
+        viewPager2Adapter = new ViewPager2Adapter(this);
+        viewPager2Adapter.addFrag(informationFragment);
+        viewPager2Adapter.addFrag(commentFragment);
+
+        binding.viewPager2.setAdapter(viewPager2Adapter);
         binding.viewPager2.setCurrentItem(0);
 
         binding.buttonHeart.setOnClickListener(this);
@@ -77,7 +81,7 @@ public class DetailBookListActivity extends FragmentActivity implements View.OnC
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(binding.tabLayout, binding.viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if(position == 0) {
+                if (position == 0) {
                     tab.setText("책소개");
                 } else {
                     tab.setText("리뷰/평점");
@@ -85,8 +89,6 @@ public class DetailBookListActivity extends FragmentActivity implements View.OnC
             }
         });
         tabLayoutMediator.attach();
-
-
 
 
         initView(getBookId);
@@ -142,25 +144,37 @@ public class DetailBookListActivity extends FragmentActivity implements View.OnC
 
 
 
-    private  class viewPagerAdapter extends FragmentStateAdapter {
+    private  class ViewPager2Adapter extends FragmentStateAdapter {
 
-        public viewPagerAdapter(FragmentActivity fragmentActivity) {
+        private final List<Fragment> fragmentList = new ArrayList<>();
+
+        public ViewPager2Adapter(FragmentActivity fragmentActivity) {
             super(fragmentActivity);
+        }
+
+        public void addFrag(Fragment fragment) {
+            fragmentList.add(fragment);
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            if (position == 0) {
-                return InformationFragment.newInstance();
-            } else {
-                return CommentFragment.newInstance();
-            }
+            return fragmentList.get(position);
+            /*switch (position) {
+                case 0:
+                    return new InformationFragment().newInstance();
+
+                case 1:
+                    return new CommentFragment().newInstance();
+
+                default:
+                    return null;
+            }*/
         }
 
         @Override
         public int getItemCount() {
-            return NUM_PAGES;
+            return fragmentList.size();
         }
     }
 

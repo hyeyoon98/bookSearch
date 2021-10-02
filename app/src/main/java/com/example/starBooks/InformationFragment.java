@@ -32,9 +32,12 @@ public class InformationFragment extends Fragment {
 
     private int bookId;
 
-    public static InformationFragment newInstance() {
+    private static final String BUNDLE_PARAM = "book_Id";
+
+    public static InformationFragment newInstance(int bookId) {
         Bundle bundle = new Bundle();
         InformationFragment fragment = new InformationFragment();
+        bundle.putInt(BUNDLE_PARAM, bookId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -43,23 +46,24 @@ public class InformationFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
+            bookId = getArguments().getInt(BUNDLE_PARAM);
+        }
 
-        getParentFragmentManager().setFragmentResultListener("bookId", this, new FragmentResultListener() {
+        initView(bookId);
+
+
+        /*getParentFragmentManager().setFragmentResultListener("bookId", this, new FragmentResultListener() {
             @Override public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle)
             {
                 if (bundle.getInt("bookId") != 0) {
-                    int bookId = bundle.getInt("bookId");
+                    bookId = bundle.getInt("bookId");
                     System.out.println("----------------------------"+bookId);
                     initView(bookId);
                 }
 
             }
-        });
-        /*if (getArguments() != null) {
-            int bookId = getArguments().getInt("bookId");
-            System.out.println("bookId_fg >>" + bookId);
-            initView(bookId);
-        }*/
+        });*/
     }
 
     @Nullable

@@ -6,6 +6,9 @@
 
         <import type="android.view.View"/>
         <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
+        <variable
             name="commentAdapter"
             type="com.example.starBooks.adapter.CommentAdapter" />
 
@@ -17,6 +20,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/button_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="리뷰 쓰기"
@@ -29,7 +33,8 @@
             android:layout_marginEnd="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:padding="15dp"/>
+            android:padding="15dp"
+            android:onClick="onClick"/>
 
         <View
             android:id="@+id/line1"
@@ -121,8 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:adapter="@{commentAdapter}"
-            android:visibility="gone"/>
+            app:adapter="@{commentAdapter}"/>
 
 
     </LinearLayout>

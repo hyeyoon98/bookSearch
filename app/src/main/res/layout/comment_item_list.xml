@@ -84,9 +84,10 @@
 
             <ImageView
                 android:background="@drawable/down_arrow_nor"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_horizontal" />
+
 
         </LinearLayout>
 
@@ -109,6 +110,7 @@
             android:visibility="gone">
 
             <TextView
+                android:id="@+id/button_revise_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="수정"
@@ -124,6 +126,7 @@
                 android:textSize="13dp"/>
 
             <TextView
+                android:id="@+id/button_cancel_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="삭제"
@@ -132,10 +135,8 @@
                 android:includeFontPadding="false"
                 android:onClick="onClick"/>
 
-
-
-
         </LinearLayout>
+
 
 
 

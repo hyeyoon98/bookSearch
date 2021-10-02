@@ -88,6 +88,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     System.out.println("메세지 >>>>>>>>>>"+msg);
                     String accessToken = result.getTokenResponseDto().getAccessToken();
                     String refreshToken = result.getTokenResponseDto().getRefreshToken();
+                    long accessTokenExpireIn = Long.parseLong(result.getTokenResponseDto().getAccessTokenExpiresIn());
+                    long tokenExpiresIn = System.currentTimeMillis();
 
 
                     switch (code) {
@@ -106,6 +108,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             showToast(msg);
 
                         case "E0008" :
+
+                            setPreferenceLong("accessTokenExpireIn", accessTokenExpireIn);
+                            setPreferenceLong("tokenExpiresIn", tokenExpiresIn );
                             setPreference("refreshToken", refreshToken );
                             setPreference("accessToken", accessToken);
                             System.out.println("accessToken >>>" + accessToken);
@@ -127,6 +132,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+
+    public void setPreferenceLong(String key, long value){
+        SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putLong(key, value);
+        editor.apply();
+    }
+
+
 
     public void setPreference(String key, String value){
         SharedPreferences pref = getSharedPreferences(DATA_STORE, MODE_PRIVATE);

@@ -161,8 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("response >>>" + response);
 
                     Page result = response.body();
-                    bookList_list = result.getContent();/*
-                    binding.progressBar.setVisibility(View.GONE);*/
+                    bookList_list = result.getContent();
 
                     adapter = new MainAdapter(MainActivity.this, bookList_list);
                     binding.recyclerView.setAdapter(adapter);

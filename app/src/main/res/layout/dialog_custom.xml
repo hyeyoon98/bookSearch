@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="150dp"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_round_gray">
+
+            <TextView
+                android:id="@+id/option_codetype_dialog_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="리뷰 작성하기"
+                android:textSize="18dp"
+                android:fontFamily="@font/gmarketsansmedium"
+                android:includeFontPadding="false"
+                android:paddingStart="10dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/above_round_blue"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="책이름"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/gmarketsansmedium"
+                android:includeFontPadding="false"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <ImageView
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_star_small_origin"
+                    android:onClick="onClick"/>
+
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_star_small_origin"
+                    android:onClick="onClick"/>
+
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_star_small_origin"
+                    android:onClick="onClick"/>
+
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_star_small_origin"
+                    android:onClick="onClick"/>
+
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_star_small_origin"
+                    android:onClick="onClick"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/tv_write_review"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="리뷰를 작성해주세요"
+                android:textSize="13dp"
+                android:gravity="top"
+                android:padding="10dp"
+                android:fontFamily="@font/gmarketsansmedium"
+                android:includeFontPadding="false"
+                android:background="@drawable/rectangle_round_gray_line"
+                android:layout_margin="10dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/button_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="등록"
+                    android:textSize="15dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/gmarketsansmedium"
+                    android:includeFontPadding="false"
+                    android:padding="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_blue"
+                    android:onClick="onClick"/>
+
+                <TextView
+                    android:id="@+id/button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취소"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsansmedium"
+                    android:includeFontPadding="false"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/rectangle_round_gray_line"
+                    android:onClick="onClick"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:id="@+id/dialog_numbers_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/option_codetype_dialog_negative"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="#757575"
+                android:textColor="#fff"
+                android:text="취소"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/option_codetype_dialog_positive"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#4682C2"
+                android:gravity="center"
+                android:text="저장"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+        </LinearLayout>-->
+
+
+
+
+
+    </RelativeLayout>
+
+</layout>
